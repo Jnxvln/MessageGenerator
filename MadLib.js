@@ -35,12 +35,16 @@ class MadLib {
 
     // METHODS
     generateTags () {
-        // Locate each tag in the `sentence`, store it in the `rawTags` array
+        // SUMMARY: Generate an array of tags from `rawSentence`
+
+        // Return error if `rawSentence` doesn't exist
         if (!this._rawSentence) {
             console.error(new Error('[generateTags]: Missing the raw sentence'))
             return new Error('[generateTags]: Missing the raw sentence')
         }
 
+        // Scan sentence for tags according to regex pattern  (this._pattern)
+        // Copy each tag from `rawSentence` to the `rawTags` array
         let rawTag
         do {
             rawTag = this._pattern.exec(this._rawSentence)
@@ -49,27 +53,28 @@ class MadLib {
             }
         } while (rawTag != null)
 
-        // exec() actually returns an array whose second index is the actual tag (the words *between* the brackets)
-        // Loop and save each clean tag to the cleanTags array
+        // .exec() actually returns an array whose second index is the actual tag (text *between* the brackets)
+        // Loop through and save each "clean" tag to the cleanTags array
         this._cleanTags = this._rawTags.map(r => r[1])
 
-        // Also, save the rawTags separately (used later)
+        // Also, save the rawTags separately (used in the `parse` method)
         this._rawTags = this._rawTags.map(r => r[0])
     }
 
     generateValues () {
+        // SUMMARY: For each cleanTag, choose a random item from its corresponding category in `data` (imported from data.js)
         if (!this._rawSentence) {
             console.error(new Error('[generateTags]: Missing the raw sentence'))
             return new Error('[generateValues]: Missing the raw sentence')
         }
 
-        // Loop through the clean tags..
+        // Loop through cleanTags..
         for (let i=0; i<this._cleanTags.length; i++) {
 
-            // console.log(`[generateValues]: DEBUG: cleanTags[${i}] = ${this._cleanTags[i]}`)
             switch (this._cleanTags[i]) {
         
-                // Determine which category the tag is, then randomly select an item from its corresponding data array, store to `values` array 
+                /* Determine which category the tag is, then choose random item from 
+                corresponding data array, store to `values` array */
 
                 // #region THINGS
                 case 'object':
@@ -230,19 +235,20 @@ class MadLib {
                 // #endregion
 
                 default:
-                    console.log('WARNING: case does not exist...')
+                    // TODO: Handle more elegantly
+                    console.log('WARNING: current cleanTag does not exist...')
                     break
             }
         }
     }
 
     chooseRandomSentence () {
+        // SUMMARY: Choose a random sentence from `sentences.js`
         return this._rawSentence = sentences[Math.floor(Math.random() * sentences.length)]
     }
 
     parse() {
-        // Replace each tag in `rawSentence` with corresponding value from `values` array
-
+        // SUMMARY: Replace each tag in `rawSentence` with corresponding value from `values` array
         let tempSentence = this._rawSentence
 
         for (let i=0; i<this._rawTags.length; i++) {
@@ -250,13 +256,11 @@ class MadLib {
         }
 
         this._parsedSentence = tempSentence
-
-        // Return the completed sentence
         return this._parsedSentence
     }
 
     random () {
-        // Generate a random madlib (chooses a random sentence from sentences.js)
+        // SUMMARY: Generate a random madlib (chooses a random sentence from sentences.js), then parse and print
         this.chooseRandomSentence()
         this.generateTags()
         this.generateValues()
@@ -265,12 +269,12 @@ class MadLib {
     }
 
     print () {
+        // SUMMARY: Print the parsed sentence to the console
         if (!this._parsedSentence) {
             console.error(new Error('[generateTags]: Missing the parsed sentence'))
             return new Error('[generateValues]: Missing the parsed sentence')
         }
         console.log(this._parsedSentence)
-        return this._parsedSentence
     }
 
     // #region GETTERS
@@ -286,10 +290,6 @@ class MadLib {
     set rawSentence (sentence) {
         this._rawSentence = sentence
     }
-
-    // set parsedSentence (sentence) {
-    //     this._parsedSentence = sentence
-    // }
 
     set pattern (pattern) {
         this._pattern = pattern
