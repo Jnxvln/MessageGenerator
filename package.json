@@ -1,8 +1,8 @@
 {
-  "name": "messagegenerator",
+  "name": "madlibgen",
   "version": "1.0.0",
-  "description": "Generate a random message",
-  "main": "main.js",
+  "description": "Generate a random MadLib",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

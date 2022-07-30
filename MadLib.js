@@ -1,14 +1,15 @@
 import data from './data/data.js'
 import sentences from './data/sentences.js'
 
-const { objects,
+const { 
+    nounsConcrete,
+    nounsAbstract,
     clothing,
     food,
     fruit,
     verbs,
     houseRooms,
-    stores,
-    books,
+    bookTitles,
     businesses,
     publicSpaces,
     maleFirstNames,
@@ -21,19 +22,25 @@ const { objects,
     bodyParts,
     nonalcoholicBeverages,
     alcoholicBeverages,
-    possessives } = data;
+    animals,
+    emotions,
+    medicines,
+    possessives 
+} = data;
 
 class MadLib {
     constructor (sentence) {
-        this._rawSentence = sentence ? sentence : undefined
-        this._parsedSentence = undefined
-        this._pattern = /\[(.*?)\]/gi
-        this._rawTags = []
-        this._cleanTags = []
-        this._values = []
+        this._rawSentence = sentence ? sentence : undefined     // The sentence template with 'tags'
+        this._parsedSentence = undefined                        // The final, parsed sentence
+        this._pattern = /\[(.*?)\]/gi                           // The regex pattern used to locate 'tags'
+        this._rawTags = []                                      // List of unparsed 'tags' (i.e: [bookTitle])
+        this._cleanTags = []                                    // List of 'cleaned' tags (i.e: bookTitle)
+        this._values = []                                       // List of values to replace rawTags
     }
 
-    // METHODS
+    // #region METHODS
+    
+    // STEP 1
     generateTags () {
         // SUMMARY: Generate an array of tags from `rawSentence`
 
@@ -61,6 +68,7 @@ class MadLib {
         this._rawTags = this._rawTags.map(r => r[0])
     }
 
+    // STEP 2
     generateValues () {
         // SUMMARY: For each cleanTag, choose a random item from its corresponding category in `data` (imported from data.js)
         if (!this._rawSentence) {
@@ -76,24 +84,42 @@ class MadLib {
                 /* Determine which category the tag is, then choose random item from 
                 corresponding data array, store to `values` array */
 
-                // #region THINGS
-                case 'object':
-                    this._values.push(objects[Math.floor(Math.random() * objects.length)])
+                // #region NOUNS (CONCRETE & ABSTRACT)
+                case 'nounConcrete':
+                    this._values.push(nounsConcrete[Math.floor(Math.random() * nounsConcrete.length)].singular)
                     break
 
-                case 'object:plural':
-                    // Add an 's' to the end
-                    this._values.push(objects[Math.floor(Math.random() * objects.length)] + 's')
+                case 'nounConcrete:singular':
+                    this._values.push(nounsConcrete[Math.floor(Math.random() * nounsConcrete.length)].singular)
                     break
 
-                case 'book':
-                    this._values.push(books[Math.floor(Math.random() * books.length)])
+                case 'nounConcrete:plural':
+                    this._values.push(nounsConcrete[Math.floor(Math.random() * nounsConcrete.length)].plural)
                     break
 
+                case 'nounAbstract':
+                    this._values.push(nounsAbstract[Math.floor(Math.random() * nounsAbstract.length)].singular)
+                    break
+
+                case 'nounAbstract:singular':
+                    this._values.push(nounsAbstract[Math.floor(Math.random() * nounsAbstract.length)].singular)
+                    break
+
+                case 'nounAbstract:plural':
+                    this._values.push(nounsAbstract[Math.floor(Math.random() * nounsAbstract.length)].plural)
+                    break
+
+                case 'bookTitle':
+                    this._values.push(bookTitles[Math.floor(Math.random() * bookTitles.length)])
+                    break
+                    
+                // #endregion ===================================================================
+                
+                // #region FURNITURE
                 case 'furniture':
                     this._values.push(furniture[Math.floor(Math.random() * furniture.length)])
                     break
-                // #endregion ===================================================================
+                // #endregion
 
                 // #region CLOTHING
                 case 'clothing:plural':
@@ -123,33 +149,21 @@ class MadLib {
                     break
                 // #endregion
 
-                // #region VERBS
-                case 'verb':
-                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].singular)
+                // #region ANIMALS
+                case 'animal':
+                    this._values.push(animals[Math.floor(Math.random() * animals.length)].singular)
                     break
 
-                case 'verb:singular':
-                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].singular)
-                    break
-        
-                case 'verb:plural':
-                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].plural)
+                case 'animal:singular':
+                    this._values.push(animals[Math.floor(Math.random() * animals.length)].singular)
                     break
 
-                case 'verb:ed':
-                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].ed)
-                    break
-
-                case 'verb:ing':
-                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].ing)
+                case 'animal:plural':
+                    this._values.push(animals[Math.floor(Math.random() * animals.length)].plural)
                     break
                 // #endregion
         
-                // #region LOCATIONS
-                case 'store':
-                    this._values.push(stores[Math.floor(Math.random() * stores.length)])
-                    break
-            
+                // #region LOCATIONS            
                 case 'business':
                     this._values.push(businesses[Math.floor(Math.random() * businesses.length)])
                     break
@@ -163,6 +177,18 @@ class MadLib {
                     break
                 // #endregion
         
+                // #region EMOTIONS
+                case 'emotion':
+                    this._values.push(emotions[Math.floor(Math.random() * emotions.length)])
+                    break
+                // #endregion
+
+                // #region MEDICINES
+                case 'medicine':
+                    this._values.push(medicines[Math.floor(Math.random() * medicines.length)])
+                    break
+                // #endregion
+
                 // #region NAMES
                 case 'firstName:male':
                     this._values.push(maleFirstNames[Math.floor(Math.random() * maleFirstNames.length)])
@@ -226,6 +252,38 @@ class MadLib {
                 case 'adjective':
                     this._values.push(adjectives[Math.floor(Math.random() * adjectives.length)])
                     break
+                
+                case 'verb':
+                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].singular)
+                    break
+
+                case 'verb:singular':
+                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].singular)
+                    break
+        
+                case 'verb:plural':
+                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].plural)
+                    break
+
+                case 'verb:ed':
+                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].ed)
+                    break
+
+                case 'verb:ing':
+                    this._values.push(verbs[Math.floor(Math.random() * verbs.length)].ing)
+                    break
+
+                case 'noun':
+                    this._values.push(nounsAbstract[Math.floor(Math.random() * nounsAbstract.length)].singular)
+                    break
+
+                case 'noun:singular':
+                    this._values.push(nounsAbstract[Math.floor(Math.random() * nounsAbstract.length)].singular)
+                    break
+
+                case 'noun:plural':
+                    this._values.push(nounsAbstract[Math.floor(Math.random() * nounsAbstract.length)].plural)
+                    break
                 // #endregion
 
                 // #region MISCELLANEOUS
@@ -236,17 +294,13 @@ class MadLib {
 
                 default:
                     // TODO: Handle more elegantly
-                    console.log('WARNING: current cleanTag does not exist...')
+                    console.log(`WARNING: ${this._cleanTags[i]} does not exist...`)
                     break
             }
         }
     }
 
-    chooseRandomSentence () {
-        // SUMMARY: Choose a random sentence from `sentences.js`
-        return this._rawSentence = sentences[Math.floor(Math.random() * sentences.length)]
-    }
-
+    // STEP 3
     parse() {
         // SUMMARY: Replace each tag in `rawSentence` with corresponding value from `values` array
         let tempSentence = this._rawSentence
@@ -259,23 +313,41 @@ class MadLib {
         return this._parsedSentence
     }
 
-    random () {
-        // SUMMARY: Generate a random madlib (chooses a random sentence from sentences.js), then parse and print
-        this.chooseRandomSentence()
-        this.generateTags()
-        this.generateValues()
-        this.parse()
-        this.print()
-    }
-
+    // STEP 4
     print () {
         // SUMMARY: Print the parsed sentence to the console
+
         if (!this._parsedSentence) {
             console.error(new Error('[generateTags]: Missing the parsed sentence'))
             return new Error('[generateValues]: Missing the parsed sentence')
         }
         console.log(this._parsedSentence)
     }
+
+    chooseRandomSentence () {
+        // SUMMARY: Choose a random sentence from `sentences.js`
+        return this._rawSentence = sentences[Math.floor(Math.random() * sentences.length)]
+    }
+
+    random () {
+        // SUMMARY: Generate a random madlib (chooses a random sentence from sentences.js), then parse and print
+        this.chooseRandomSentence()
+        this.execute()
+    }
+
+    execute () {
+        // SUMMARY: Generate tags, values, parse the rawSentence and print the result
+        if (!this._rawSentence) {
+            console.error(new Error('[execute()]: Missing the raw sentence'))
+            return new Error('[execute()]: Missing the raw sentence')
+        }
+
+        this.generateTags()
+        this.generateValues()
+        this.parse()
+        this.print()
+    }
+    // #endregion
 
     // #region GETTERS
     get rawSentence () { return this._rawSentence }
