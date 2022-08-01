@@ -30,7 +30,9 @@ Download
 ## RUNNING THE PROGRAM
 Once installed, use your terminal to navigate to the project directory.
 
-Look at `index.js` to read developer notes and to run the program. There are two ways to run the program, with `random()` being the default. You can optionally pass in your own `rawSentence` and use `execute()` to run the program. Examples of both are included in `index.js`.
+Run `node index.js` in the terminal to run this program (using `random()` by default)
+
+Read the developer notes in `index.js`, there are two ways to run the program, with `random()` being the default. You can optionally pass in your own `rawSentence` and use `execute()` to run the program. Examples of both are included in `index.js`.
 
 I've copied and pasted them here for reference:
 
