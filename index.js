@@ -37,19 +37,17 @@ import MadLib from './MadLib.js'
     ============================================================================
 */
 
-// TO GET STARTED: UNCOMMENT ONE OF THE FOLLOWING: 
+// UNCOMMENT ONE OF THE FOLLOWING AND RUN THE PROGRAM: 
 
 
 // ===== QUICK START =====
-// const madlib = new MadLib()
-// madlib.random()               // Outputs random madlib to console
+const madlib = new MadLib()
+madlib.random()               // Outputs random madlib to console
 
 
 // ===== CUSTOM MADLIB =====
 // const rawSentence = "It's just a typical manic Monday at the office; [firstName:male] somehow stapled his [bodyPart], \
 // [firstName:female]'s hair got caught in the [furniture], and [firstName:female] got fired for [verb:ing] her TPS report"
 
-
-const rawSentence = '[firstName:female] threw a [nounConcrete] at her brother because he kept putting [nounConcrete:plural] in her hair'
-const madlib = new MadLib(rawSentence)
-madlib.execute()
+// const madlib = new MadLib(rawSentence)
+// madlib.execute()

@@ -3,7 +3,7 @@
 ## WELCOME
 Thanks for checking out my MadLib Generator! Please note that this generator is a fairly simple way to create MadLibs, there are *many* ways, please feel free to fork and experiment!
 
-WARNING: Recommended for age 18+, the generator randomly chooses verbs, nouns, etc. and can occasionally produce obscene sentences.
+**WARNING: Recommended for age 18+, the generator randomly chooses verbs, nouns, etc. and can occasionally produce obscene sentences.**
 
 This project is my solution for Codecademy.com's Module #9, "Mixed Messages", in the Backend-Engineer Career Path.
 
@@ -28,9 +28,27 @@ Download
 ---
 
 ## RUNNING THE PROGRAM
-Once installed, use your terminal to navigate to the MessageGenerator directory.
+Once installed, use your terminal to navigate to the project directory.
 
-Look at `index.js` to read developer notes and to run the program. You are given two ways of running the program: randomly or with a custom madlib. Examples of both are included in `index.js`.
+Look at `index.js` to read developer notes and to run the program. There are two ways to run the program, with `random()` being the default. You can optionally pass in your own `rawSentence` and use `execute()` to run the program. Examples of both are included in `index.js`.
+
+I've copied and pasted them here for reference:
+
+```
+// UNCOMMENT ONE OF THE FOLLOWING AND RUN THE PROGRAM: 
+
+// ===== QUICK START =====
+const madlib = new MadLib()
+madlib.random()               // Outputs random madlib to console
+
+
+// ===== CUSTOM MADLIB =====
+// const rawSentence = "It's just a typical manic Monday at the office; [firstName:male] somehow stapled his [bodyPart], \
+// [firstName:female]'s hair got caught in the [furniture], and [firstName:female] got fired for [verb:ing] her TPS report"
+
+// const madlib = new MadLib(rawSentence)
+// madlib.execute()
+```
 
 ---
 <br/>
@@ -69,14 +87,18 @@ Back to our example sentence above, `[firstName:male]` eventually gets replaced 
 
 Good question, open `MadLib.js` and examine the madness. **(Answered in step #2 below)**
 
+---
+
 *Use code folding to collapse/expand segments of code, since this file is quite long. I'll eventually modularize certain aspects of this class into separate files.*
 
-This file is basically a class called `MadLib` which contains all the properties and methods used to generate random MadLibs.
+---
+
+`MadLib.js` class file contains all the properties and methods used to generate random MadLibs.
 
 In the constructor, there is a property called `rawSentence` which will be the raw sentence containing one or more tags. You can optionally pass in your own rawSentence, or a random one is chosen from `data/sentences.js` if you don't.
 
 ## Step 1: generateTags()
-The method `generateTags` (under "Step 1") uses a regular expression to locate tags in `this._rawSentence` and save them to an array called `rawTags`, which you'll notice is also a property of this class.
+This method uses a regular expression to locate tags in `this._rawSentence` and save them to an array called `rawTags`, which is also a property of this class.
 
 We also save "clean" tags (tags without the brackets, so just the words) to a property array called `cleanTags`.
 
@@ -87,6 +109,14 @@ In this method, we loop through our list of `cleanTags`, and for each one we run
 
 Find a case called `firstName:male`. You'll see that we push a random male first name to the `values` array. In fact,
 in each case of the switch statement we push a random value from the appropriate data array.
+
+Basically the parser replaces `[firstName:male]` with a random male first name from the `maleFirstNames` data array in `data/data.js`.
+
+```
+case 'firstName:male':
+  this._values.push(maleFirstNames[Math.floor(Math.random() * maleFirstNames.length)])
+  break
+```
 
 --- 
 
