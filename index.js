@@ -14,11 +14,14 @@ import MadLib from './MadLib.js'
     ============================================================================
 
     ~~ WELCOME! ~~
-    Thanks for checking out my MadLib generator!
+    Thanks for checking out my MadLib generator! 
     To get started, try out the QUICK START below.
 
     The majority of the code lives in the MadLib.js class file.
     Data is located in data/data.js and data/sentences.js.
+
+    For more detailed information, view the readme file here:
+    https://github.com/Jnxvln/MessageGenerator#readme
 
     Please note this is a simple implementation of a MadLib generator and could
     obviously be made a lot better. Feel free to fork and experiment!
@@ -34,19 +37,19 @@ import MadLib from './MadLib.js'
     ============================================================================
 */
 
-
 // TO GET STARTED: UNCOMMENT ONE OF THE FOLLOWING: 
 
 
 // ===== QUICK START =====
-const madlib = new MadLib()
-madlib.random()               // Outputs random madlib to console
-
+// const madlib = new MadLib()
+// madlib.random()               // Outputs random madlib to console
 
 
 // ===== CUSTOM MADLIB =====
 // const rawSentence = "It's just a typical manic Monday at the office; [firstName:male] somehow stapled his [bodyPart], \
 // [firstName:female]'s hair got caught in the [furniture], and [firstName:female] got fired for [verb:ing] her TPS report"
 
-// const madlib = new MadLib(rawSentence)
-// madlib.execute()
+
+const rawSentence = '[firstName:female] threw a [nounConcrete] at her brother because he kept putting [nounConcrete:plural] in her hair'
+const madlib = new MadLib(rawSentence)
+madlib.execute()
